@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BashAma | Game Info</title>
     <style>
         body {
@@ -17,22 +17,54 @@
             color: #00f;
         }
 
-        h2 {
+        h2, h3 {
             color: #0ff;
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+        }
+
+        .arrow {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .rotate {
+            transform: rotate(180deg);
         }
 
         .changelog {
             margin-top: 20px;
         }
 
-            .changelog ul {
-                list-style-type: none;
-                padding: 0;
+        .version {
+            margin-bottom: 10px;
+            border-left: 3px solid #0ff;
+            padding-left: 10px;
+        }
+
+        .entries {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding-left: 0;
+            padding-top: 0;
+        }
+
+            .entries.show {
+                max-height: 500px; /* enough space for most lists */
+                padding-top: 5px;
             }
 
-            .changelog li {
-                margin-bottom: 10px;
+            .entries li {
+                list-style: none;
+                margin-bottom: 5px;
             }
+
+        a {
+            color: #0ff;
+        }
     </style>
 </head>
 <body>
@@ -40,42 +72,64 @@
     <p>Welcome to BashAma, the game with no lore... or is there?!?!?</p>
     <p>Developed by IdumStuff.</p>
 
-    <h2>Changelog</h2>
-
-        <div class="changelog">
-        <h3>v1.0.4 (Quality of Life)</h3>
-        <ul>
-            <li>Fixed More Bugs</li>
-            <li>Redid Fight UI</li>
-            <li>Added PeaShooter Skin</li>
-            <li>Added "Mexico Filter"</li>
-            <li>Calithor Shop Update</li>
-            <li>MacOS/Linux release</li>
-        </ul>
-    </div>
-
-
-    
-    <div class="changelog">
-        <h3>v1.0.3 (Bug Fix)</h3>
-        <ul>
-            <li>Fixed transition bugs</li>
-            <li>Fixed debug menu</li>
-            <li>Achievements no longer unlock automatically</li>
-            <li>Reworked desk design</li>
-            <li>Removed Thorni</li>
-            <li>Fixed grass design</li>
-        </ul>
-    </div>
+    <h2 onclick="toggleAll(this)">Changelog <span class="arrow" id="main-arrow">▼</span></h2>
 
     <div class="changelog">
-        <h3>v1.0.0</h3>
-        <ul>
-            <li>Remade the entire game with new music and skins</li>
-            <li>Added a shop</li>
-        </ul>
+        <div class="version">
+            <h3 onclick="toggleEntry(this)">v1.0.4 (Quality of Life) <span class="arrow">▼</span></h3>
+            <ul class="entries">
+                <li>Fixed More Bugs</li>
+                <li>Redid Fight UI</li>
+                <li>Added PeaShooter Skin</li>
+                <li>Added "Mexico Filter"</li>
+                <li>Calithor Shop Update</li>
+                <li>MacOS/Linux release</li>
+            </ul>
+        </div>
+
+        <div class="version">
+            <h3 onclick="toggleEntry(this)">v1.0.3 (Bug Fix) <span class="arrow">▼</span></h3>
+            <ul class="entries">
+                <li>Fixed transition bugs</li>
+                <li>Fixed debug menu</li>
+                <li>Achievements no longer unlock automatically</li>
+                <li>Reworked desk design</li>
+                <li>Removed Thorni</li>
+                <li>Fixed grass design</li>
+            </ul>
+        </div>
+
+        <div class="version">
+            <h3 onclick="toggleEntry(this)">v1.0.0 <span class="arrow">▼</span></h3>
+            <ul class="entries">
+                <li>Remade the entire game with new music and skins</li>
+                <li>Added a shop</li>
+            </ul>
+        </div>
     </div>
 
-    <p>For more updates and information, visit the game's <a href="https://idumiscoool.itch.io/ding-dong">Itch.io page</a>.</p>
+    <p>For more updates and information, visit the game's <a href="https://idumiscoool.itch.io/ding-dong" target="_blank">Itch.io page</a>.</p>
+
+    <script>
+        function toggleEntry(header) {
+            const ul = header.nextElementSibling;
+            ul.classList.toggle('show');
+            const arrow = header.querySelector('.arrow');
+            arrow.classList.toggle('rotate');
+        }
+
+        function toggleAll(mainHeader) {
+            const allLists = document.querySelectorAll('.entries');
+            const allArrows = document.querySelectorAll('.version h3 .arrow');
+            const mainArrow = document.getElementById('main-arrow');
+
+            const allOpen = [...allLists].every(list => list.classList.contains('show'));
+            allLists.forEach(list => list.classList.toggle('show', !allOpen));
+            allArrows.forEach(arrow => arrow.classList.toggle('rotate', !allOpen));
+            mainArrow.classList.toggle('rotate', !allOpen);
+        }
+    </script>
+
+    <p>Website Version: v0.03</p>
 </body>
 </html>
